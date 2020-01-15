@@ -1,3 +1,4 @@
+<<<<<<< HEAD:frontend/index.js
 // //  This app was created to test the functionality of the Trace tool - chronos
 // // It's very barebones and straightforward
 
@@ -313,6 +314,11 @@ window.onload = () => {
     3000: 'Frontend', 4545: 'Books', 7777: 'Orders', 5555: 'Customers',
   };
 
+=======
+window.onload = () => {
+  // microservice1 - Books
+  const microservicePort = { 3000: 'Reverse Proxy', 4545: 'Books', 7777: 'Orders', 5555: 'Customers' };
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
   // sets the title of the page to whatever port you're currently on
   document.title = microservicePort[window.location.port];
 
@@ -330,18 +336,28 @@ window.onload = () => {
     const author = document.getElementById('field_B1').value;
     const numberOfPages = document.getElementById('field_C1').value;
     const publisher = document.getElementById('field_D1').value;
+<<<<<<< HEAD:frontend/index.js
 
     if (!title || !author || !numberOfPages || !publisher) {
       return alert('Every Books field must be completed');
     }
 
+=======
+    if (!title || !author || !numberOfPages || !publisher) {
+      return alert("Every Books field must be completed");
+    }
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
     let book = {
       title, author, numberOfPages, publisher,
     };
 
     book = JSON.stringify(book);
+<<<<<<< HEAD:frontend/index.js
     fetch('http://localhost:8080/books/createbook', {
     // fetch('http://localhost:3000/books/createbook', {
+=======
+    fetch('http://localhost:3000/books/createbook', {
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: book,
@@ -364,8 +380,12 @@ window.onload = () => {
     newDisplay.id = 'display';
     newDisplay.innerHTML = 'List of books';
     document.getElementById('container').appendChild(newDisplay);
+<<<<<<< HEAD:frontend/index.js
     fetch('http://localhost:8080/books/getbooks', {
     // fetch('http://localhost:3000/books/getbooks', {
+=======
+    fetch('http://localhost:3000/books/getbooks', {
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
       method: 'GET',
     })
       .then((res) => res.json())
@@ -390,8 +410,12 @@ window.onload = () => {
             const newDisplay = document.createElement('ul');
             newDisplay.id = 'display';
             document.getElementById('container').appendChild(newDisplay);
+<<<<<<< HEAD:frontend/index.js
             const url = new URL('http://localhost:8080/books/deletebook:id?');
             // const url = new URL('http://localhost:3000/books/deletebook:id?');
+=======
+            const url = new URL('http://localhost:3000/books/deletebook:id?');
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
             url.searchParams.append('id', bookInDb._id);
 
             fetch(url, {
@@ -417,8 +441,12 @@ window.onload = () => {
     newDisplay.id = 'display';
     newDisplay.innerHTML = 'List of orders';
     document.getElementById('container').appendChild(newDisplay);
+<<<<<<< HEAD:frontend/index.js
     fetch('http://localhost:8080/books/getordersinfo', {
     // fetch('http://localhost:3000/books/getordersinfo', {
+=======
+    fetch('http://localhost:3000/books/getordersinfo', {
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
       method: 'GET',
     })
       .then((res) => res.json())
@@ -444,14 +472,22 @@ window.onload = () => {
     const age = document.getElementById('field_B2').value;
     const address = document.getElementById('field_C2').value;
     if (!name || !age || !address) {
+<<<<<<< HEAD:frontend/index.js
       return alert('Every Customers field must be completed');
+=======
+      return alert("Every Customers field must be completed");
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
     }
     let customer = {
       name, age, address,
     };
     customer = JSON.stringify(customer);
+<<<<<<< HEAD:frontend/index.js
     fetch('http://localhost:8080/customers/createcustomer', {
     // fetch('http://localhost:3000/customers/createcustomer', {
+=======
+    fetch('http://localhost:3000/customers/createcustomer', {
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: customer,
@@ -472,8 +508,12 @@ window.onload = () => {
     newDisplay.id = 'display';
     newDisplay.innerHTML = 'List of customers';
     document.getElementById('container').appendChild(newDisplay);
+<<<<<<< HEAD:frontend/index.js
     fetch('http://localhost:8080/customers/getcustomers', {
     // fetch('http://localhost:3000/customers/getcustomers', {
+=======
+    fetch('http://localhost:3000/customers/getcustomers', {
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
       method: 'GET',
     })
       .then((res) => res.json())
@@ -494,8 +534,12 @@ window.onload = () => {
             const newDisplay = document.createElement('ul');
             newDisplay.id = 'display';
             document.getElementById('container').appendChild(newDisplay);
+<<<<<<< HEAD:frontend/index.js
             const url = new URL('http://localhost:8080/customers/deletecustomer:id?');
             // const url = new URL('http://localhost:3000/customers/deletecustomer:id?');
+=======
+            const url = new URL('http://localhost:3000/customers/deletecustomer:id?');
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
             url.searchParams.append('id', customerInDb._id);
             fetch(url, {
               method: 'DELETE',
@@ -521,9 +565,13 @@ window.onload = () => {
     newDisplay.id = 'display';
     newDisplay.innerHTML = 'List of books';
     document.getElementById('container').appendChild(newDisplay);
+<<<<<<< HEAD:frontend/index.js
 
     fetch('http://localhost:8080/customers/getbooksinfo', {
     // fetch('http://localhost:3000/customers/getbooksinfo', {
+=======
+    fetch('http://localhost:3000/customers/getbooksinfo', {
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
       method: 'GET',
     })
       .then((res) => res.json())
@@ -550,7 +598,11 @@ window.onload = () => {
     const purchaseDate = document.getElementById('field_C3').value;
     const deliveryDate = document.getElementById('field_D3').value;
     if (!customerID || !bookID || !purchaseDate || !deliveryDate) {
+<<<<<<< HEAD:frontend/index.js
       return alert('Every Orders field must be completed');
+=======
+      return alert("Every Orders field must be completed");
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
     }
     let order = {
       customerID,
@@ -559,8 +611,12 @@ window.onload = () => {
       deliveryDate,
     };
     order = JSON.stringify(order);
+<<<<<<< HEAD:frontend/index.js
     fetch('http://localhost:8080/orders/createorder', {
     // fetch('http://localhost:3000/orders/createorder', {
+=======
+    fetch('http://localhost:3000/orders/createorder', {
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: order,
@@ -582,8 +638,12 @@ window.onload = () => {
     newDisplay.id = 'display';
     newDisplay.innerHTML = 'List of orders';
     document.getElementById('container').appendChild(newDisplay);
+<<<<<<< HEAD:frontend/index.js
     fetch('http://localhost:8080/orders/getorders', {
     // fetch('http://localhost:3000/orders/getorders', {
+=======
+    fetch('http://localhost:3000/orders/getorders', {
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
       method: 'GET',
     })
       .then((res) => res.json())
@@ -604,8 +664,12 @@ window.onload = () => {
             const newDisplay = document.createElement('ul');
             newDisplay.id = 'display';
             document.getElementById('container').appendChild(newDisplay);
+<<<<<<< HEAD:frontend/index.js
             const url = new URL('http://localhost:8080/orders/deleteorder:id?');
             // const url = new URL('http://localhost:3000/orders/deleteorder:id?');
+=======
+            const url = new URL('http://localhost:3000/orders/deleteorder:id?');
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
             url.searchParams.append('id', orderInDb._id);
             fetch(url, {
               method: 'DELETE',
@@ -630,9 +694,13 @@ window.onload = () => {
     newDisplay.id = 'display';
     newDisplay.innerHTML = 'List of customers';
     document.getElementById('container').appendChild(newDisplay);
+<<<<<<< HEAD:frontend/index.js
 
     fetch('http://localhost:8080/orders/getcustomersinfo', {
     // fetch('http://localhost:3000/orders/getcustomersinfo', {
+=======
+    fetch('http://localhost:3000/orders/getcustomersinfo', {
+>>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e:reverse proxy/index.js
       method: 'GET',
     })
       .then((res) => res.json())

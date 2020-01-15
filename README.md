@@ -2,31 +2,89 @@
 ## Microservices Architecture
 Microservices architecture for testing [Chronos](https://github.com/oslabs-beta/Chronos), a microservice communication and health visualizer.
 
-## Purpose and Design - with docker implemented to avoid having to run multiple services in multiple terminals
-This sample microservices architecture allows developers to explore the functionality of Chronos but with one docker compose command. This consists of four microservices, which are contained within the directories:
-- Reverse Proxy / Frontend
+## Purpose and Design
+This sample microservices architecture allows developers to explore the functionality of Chronos. It consists of four microservices, which are contained within the directories:
+- Reverse Proxy
 - Books
 - Customers
 - Orders
 
 Each microservice has its own server, which receives requests from both the client and from other microservices. Books, Customers, and Orders also have their own databases, which they can query to respond to those requests.
-The frontend has a reverse proxy set up for proxying requests to the appropriate service in the microservice network. Bear in mind that the use of the word 'services' refers to the individual applications in the microservice network. In development they're all run separately on different ports, with said ports listening out for requests. This is for demonstration and testing purposes. Ideally, in a production environment, all the services will be up and running concurrently from the get go and that's what the docker compose file helps us achieve. It is able to chain all the services and run them together with one command. Docker also ensures that the versions that worked well on dev are bundled up and distributed and used to run the containers for the individual containers.
 
-
-Run the containerized microservice application with the following command: Because the docker-compose.yml file is located in the main directory of the application, you'll have to be in the main directory folder location for you to properly access the file and run it. That would be Chronos.
-
-`docker-compose -f docker-compose.yml up`
-
-If that doesn't work and you see an error message similar to this: `failed to build: The command '/bin/sh -c npm install' returned a non-zero code: 1` then the error is most likely from the dependency build. You'll have to manually navigate to each service and rum `npm install` for each service dependency to be installed before the image for the container can be created with docker compose.
-
-Next:
-
-**You must replace the placeholder MongoDB Atlas URIs for the databases with your own _actual_ MongoDB Atlas URIs:** Failure to do so means you won't be able to inspect your database.
+**You must replace the placeholder MongoDB Atlas URIs for the databases with your own _actual_ MongoDB Atlas URIs:**
 
 ```
 const myURI = 'mongodb+srv://johndoe:johndoe@cluster0-abcdef.mongodb.net/';
 ```
-Also, see specific files for specific information on further fuctionality
+
+In order to start the entire application, you will need to start each microservice's server. To do so, within each microservice directory, install all dependencies using the `npm install` command followed by the `npm start` command. You will then be able to interact with the application (as though you are a user) on a barebones frontend, which is being served by the Reverse Proxy server and can be found at localhost:3000.
+
+**To test the functionality of Chronos using this sample microservices architecture, you must install the [Chronos node module](https://www.npmjs.com/package/chronos-microservice-debugger3) within each microservice. _It is not pre-installed._ Installation instructions for both the Chronos node module and the Chronos desktop visualizer are below:**
+
+## Installation
+
+Chronos consists of a [Node](https://nodejs.org/en/) module available through the
+[npm registry](https://www.npmjs.com/) and a lightweight [Electron](https://electronjs.org/) desktop application.
+
+#### Node module
+
+To install the [Chronos](https://www.npmjs.com/package/chronos-microservice-debugger3) node module within each microservice, use the
+[`npm install`](https://docs.npmjs.com/getting-started/installing-npm-packages-locally)command:
+
+```
+npm install chronos-microservice-debugger3
+```
+
+Once installed, write the following two lines at the top of each microservice's server file:
+```javascript
+const cmd = require('chronos-microservice-debugger3');
+cmd.propagate();
+```
+
+Then add a route handler for all incoming requests:
+```js
+app.use('/', cmd.microCom('microserviceName', 'databaseType', 'databaseURL', 'wantMicroHealth', 'queryFrequency'))
+```
+
+The cmd.microCom handler function logs communication and health data to a user-provided database. This is to ensure that your private data stays private. We currently support MongoDB and SQL/PostgreSQL databases.
+
+cmd.microCom takes four parameters and an optional fifth parameter. You can enter the arguments as individual strings or as an array.
+
+The parameters are:
+1. microserviceName: To identify the microservice (i.e. "payments")
+2. databaseType: Enter either "mongo" or "sql"
+3. databaseURL: Enter the URL of your database
+4. wantMicroHealth: Do you want to monitor the health of this microservice? Enter "yes" or "no"
+5. queryFrequency (optional): How frequently do you want to log the health of this microservice? It defaults to every minute, but you can choose:
+  * "s" : every second
+  * "m" : every minute (default)
+  * "h" : every hour
+  * "d" : once per day
+  * "w" : once per week
+
+String parameter example:
+```javascript
+app.use('/', cmd.microCom('payments', 'mongo', 'mongodb+srv://user:password@cluster0-abc.mongodb.net/','yes','h'))
+```
+
+Array parameter example:
+```javascript
+let values = [
+  'payments',
+  'mongo',
+  'mongodb+srv://user:password@cluster0-abc.mongodb.net/',
+  'yes',
+  'h'
+]
+
+app.use('/', cmd.microCom(values)
+```
+
+#### Electron desktop application
+
+After installing the node module in each microservice, download the Electron desktop application from the public [Chronos](https://github.com/oslabs-beta/Chronos) repo.
+
+Inside the downloaded directory, install all dependencies using the `npm install` command followed by the `npm start` command to start the Electron desktop application.
 
 ## Contributing
 
