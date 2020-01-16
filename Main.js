@@ -17,12 +17,14 @@ let win;
 
 // declaring a createWindow function ---> Ousman
 function createWindow() {
+  const { screen } = require('electron');
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   // assign win to an instance of a new browser window.
   win = new BrowserWindow({
     // giving our window its width
-    width: 900,
+    width,
     // giving our window its hieght
-    height: 800,
+    height,
     // specify the path of the icon -- Which icon is this?.. note too tsure --> Ousman
     icon: path.join(__dirname, 'app/assets/icons/icon.png'),
     // enable node inegreation --> node intgeration, default is usally false --> Ousman
