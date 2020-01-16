@@ -24,11 +24,9 @@ BookController.createBook = (req, res, next) => {
 BookController.getBooks = (req, res, next) => {
   BookModel.find({}, (err, result) => {
     if (err) {
-      console.log('Book retrieval was not successful', err);
       return res.status(404).json(err);
     }
     res.locals.getBooks = result;
-    console.log('Book retrieval was successful', res.locals.getBooks);
     return next();
   });
 };

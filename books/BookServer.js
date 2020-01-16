@@ -14,7 +14,6 @@ const controller = require('./BookController.js');
 // app.use('/', cmd.microCom('microserviceName', 'databaseType', 'databaseURL', 'wantMicroHealth', 'queryFrequency'))
  
 app.use(bodyParser.json());
-
 app.use(cors());
 
 //  This route will create a new book

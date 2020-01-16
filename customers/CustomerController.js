@@ -41,16 +41,9 @@ CustomerController.deletecustomer = (req, res, next) => {
   });
 };
 
-<<<<<<< HEAD
-//  Controller to get info from the books application
-CustomerController.getbooksinfo = (req, res, next) => {
-  //  const { body } = req;
-  fetch('http://localhost:8080/books/getbooks', {
-=======
 //  This middleware gets all the books from the books database by sending a request to the books server
 CustomerController.getbooksinfo = (req, res, next) => {
   fetch('http://localhost:4545/books/getbooks', {
->>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e
     method: 'GET',
     headers: {
       Accept: 'application/json',

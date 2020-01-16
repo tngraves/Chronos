@@ -49,12 +49,7 @@ OrderController.deleteorder = (req, res, next) => {
 
 //  This middleware gets all the customers from the customers database by sending a request to the customers server
 OrderController.fetchcustomerdata = (req, res, next) => {
-<<<<<<< HEAD
-  //  const { body } = req;
-  fetch('http://localhost:8080/customers/getcustomers', {
-=======
   fetch('http://localhost:5555/customers/getcustomers', {
->>>>>>> 808fe27aa8d697a155c4580065bf3ffe3026aa5e
     method: 'GET',
     headers: {
       Accept: 'application/json',
