@@ -1,15 +1,9 @@
-const mongoose = require('mongoose');
 // This module enables you to use the fetch api on the backend
 const fetch = require('node-fetch');
 const OrderModel = require('./OrderModel');
+require('dotenv').config();
 
 const OrderController = {};
-
-// We changed the types to string instead
-//  mongoose.Types.ObjectId
-
-// We changed it back
-
 
 //  Controller for order creation
 OrderController.createorder = (req, res, next) => {
@@ -29,7 +23,6 @@ OrderController.createorder = (req, res, next) => {
     return next();
   });
 };
-
 
 // Controller for order retrieval
 OrderController.getorders = (req, res, next) => {
@@ -58,8 +51,7 @@ OrderController.deleteorder = (req, res, next) => {
 
 //  Controller for retrieving customers info from the customer application
 OrderController.fetchcustomerdata = (req, res, next) => {
-  //  const { body } = req;
-  fetch('http://localhost:8080/customers/getcustomers', {
+  fetch(`http://customers:${process.env.CUSTOMERS_PORT}/customers/getcustomers`, {
     method: 'GET',
     headers: {
       'Content-Type': 'Application/JSON',
@@ -75,6 +67,5 @@ OrderController.fetchcustomerdata = (req, res, next) => {
       console.log(`There was an error in getting customers data ${error}`);
     });
 };
-
 
 module.exports = OrderController;

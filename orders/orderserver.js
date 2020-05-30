@@ -1,43 +1,47 @@
-const cmd = require('chronos-microservice-debugger3');
-
-cmd.propagate();
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const cmd = require('chronos-microservice-debugger4');
+const controller = require('./OrderController');
+require('dotenv').config();
+
+// Places a unique header on every req in order to trace the path in the req's life cycle.
+cmd.propagate();
 
 const app = express();
-const bodyParser = require('body-parser');
 
-const PORT = 7777;
-//  we're using the chronos debugger tool here to intercept
-//  request and propagate our context onto said request as it travels
-// app.use('/', cmd.microCom('orders_microservice', 'sql', 'postgres://tsfcbdjo:l8AWzEJEyhxtR-ERoj7HNjIqBuRCqm9f@rajje.db.elephantsql.com:5432/tsfcbdjo'));
-// cmd.microHealth('orders_microservice', 'sql', 'postgres://tsfcbdjo:l8AWzEJEyhxtR-ERoj7HNjIqBuRCqm9f@rajje.db.elephantsql.com:5432/tsfcbdjo', 'h');
-
-// app.use('/', cmd.microCom('microserviceName', 'databaseType', 'databaseURL', 'wantMicroHealth', 'queryFrequency'));
-app.use('/', cmd.microCom('orders_microservice', 'sql', 'postgres://kpbljbrv:Ry1hO5KPIU-jvVyGnHHne-yplDr2Yk3H@rajje.db.elephantsql.com:5432/kpbljbrv', 'yes', 'm'));
-
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// Invoke .microCom with the 6 params to enable logging of comm and health data to your own db.
+// Params (6): microservice name, db type, db URI, want health data?, query freq, is service Dockerized?
+  // If running a svc in a Docker container, please give container the same name as the microservice...
+  // ... to ensure proper logging of container stats.
+app.use('/', cmd.microCom(
+  'orders',
+  // PostgreSQL
+  'sql',
+  `${process.env.CHRONOS_PSQL}`,
+  // MongoDB
+  // 'mongo',
+  // `${process.env.CHRONOS_MONGO}`,
+  'no',
+  'm',
+  'yes' // <-- Is the service Dockerized?
+));
 
 app.use(cors());
 app.use('/', express.static(path.resolve(__dirname, '../frontend')));
-const controller = require('./OrderController');
-
 
 // CHAOS FLOW
 app.use((req, res, next) => {
   console.log(
     `***************************************************************************************
-    CHAOS FLOW TEST --- METHOD:${req.method}, PATH: ${
-  req.url
-}, BODY: ${JSON.stringify(req.body)}, ID: ${req.query.id}
-    ***************************************************************************************`,
+    CHAOS FLOW TEST --- METHOD: ${req.method},
+    PATH: ${req.url},
+    BODY: ${JSON.stringify(req.body)},
+    ID: ${req.query.id}
+    ***************************************************************************************`
   );
   next();
 });
-
 
 // Create an Order through this endpoint
 app.post('/orders/createorder', controller.createorder, (req, res) => {
@@ -54,11 +58,24 @@ app.delete('/orders/deleteorder:id?', controller.deleteorder, (req, res) => {
 
 // Get customer info from the customers application with this endpoint
 app.get('/orders/getcustomersinfo', controller.fetchcustomerdata, (req, res) => {
-  //  console.log(`This is the outgoing response ${JSON.stringify(res.locals.customerdata)}`);
   res.status(200).json((res.locals.customerdata));
 });
 
+// Global error handler
+app.use((error, req, res, next) => {
+  //  console.log(err.stack);
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 400,
+    message: { err: 'An error occurred' },
+  };
+  const errorObj = Object.assign(defaultErr, error);
+  console.log(`Here is the error object's response: ${errorObj.log}`);
+
+  res.status(errorObj.status).json(errorObj.message);
+});
+
 //  open and listen to server on this port
-app.listen(PORT, () => {
-  console.log(`Orders server running on port ${PORT}...`);
+app.listen(process.env.ORDERS_PORT, () => {
+  console.log(`Orders server running on port ${process.env.ORDERS_PORT}...`);
 });
