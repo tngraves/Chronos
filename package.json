@@ -1,11 +1,12 @@
 {
   "package name": "chronos",
-  "name": "chronos-microservice-debugger4",
-  "version": "3.0.8",
+  "name": "chronos-microservice-debugger5",
+  "version": "4.0.3",
   "description": "Microservice communication and health visualizer.",
   "main": "chronos.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:all": "jest ./__tests__/*"
   },
   "deprecated": false,
   "keywords": [
@@ -21,11 +22,24 @@
   "author": "Chronos 3.0",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.19.2",
     "hpropagate": "0.0.7",
     "mongoose": "^5.9.16",
-    "osx-temperature-sensor": "^1.0.7",
+    "nodemailer": "^6.4.10",
     "pg": "^7.18.2",
-    "systeminformation": "^4.26.4",
+    "systeminformation": "^4.26.4"
+  },
+  "optionalDependencies": {
+    "osx-temperature-sensor": "^1.0.7",
     "wmic": "^0.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.1.0",
+    "prettier": "^2.0.5"
   }
 }
